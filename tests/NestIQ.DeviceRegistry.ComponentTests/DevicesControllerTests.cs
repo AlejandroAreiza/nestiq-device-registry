@@ -10,6 +10,7 @@ using NestIQ.DeviceRegistry.Application.UseCases.RegisterDevice;
 using NestIQ.DeviceRegistry.Domain.Entities;
 using NestIQ.DeviceRegistry.Domain.Enums;
 using Moq;
+using System.Threading.Tasks;
 
 public class DevicesControllerTests : IClassFixture<WebApplicationFactory<Program>>
 {
@@ -100,5 +101,49 @@ public class DevicesControllerTests : IClassFixture<WebApplicationFactory<Progra
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+    }
+
+    [Fact]
+    public async Task GetDevice_WhenDeviceExists_ShouldReturn200()
+    {
+        // Arrange
+        var deviceId = Guid.NewGuid();
+        var expectedResult = new RegisterDeviceResult
+        {
+            Id = deviceId,
+            Name = "Living Room Light",
+            Type = DeviceType.Light,
+            Status = DeviceStatus.Active,
+            HomeId = Guid.NewGuid(),
+            CreatedAt = DateTime.UtcNow
+        };
+        _repositoryMock
+        .Setup(r => r.GetByIdAsync(deviceId))
+        .ReturnsAsync(Device.Create(
+            expectedResult.Name,
+            expectedResult.Type,
+            expectedResult.HomeId));
+
+        // Act
+        var response = await _client.GetAsync($"/api/devices/{deviceId}");
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+    }
+
+    // 404 — device not found
+    [Fact]
+    public async Task GetDevice_WhenDeviceDoesNotExist_ShouldReturn404()
+    {
+        // Arrange
+        _repositoryMock
+            .Setup(r => r.GetByIdAsync(It.IsAny<Guid>()))
+            .ReturnsAsync((Device?)null);
+
+        // Act
+        var response = await _client.GetAsync($"/api/devices/{Guid.NewGuid()}");
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }
 }

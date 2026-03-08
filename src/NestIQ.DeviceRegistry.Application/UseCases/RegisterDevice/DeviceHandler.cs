@@ -1,21 +1,21 @@
+namespace NestIQ.DeviceRegistry.Application.UseCases;
+
 using NestIQ.DeviceRegistry.Application.Interfaces;
+using NestIQ.DeviceRegistry.Application.UseCases.RegisterDevice;
 using NestIQ.DeviceRegistry.Domain.Entities;
 
-namespace NestIQ.DeviceRegistry.Application.UseCases.RegisterDevice;
-
-public class RegisterDeviceHandler
+public class DeviceHandler
 {
     private readonly IDeviceRepository _repository;
 
-    public RegisterDeviceHandler(IDeviceRepository repository)
+    public DeviceHandler(IDeviceRepository repository)
     {
         _repository = repository;
     }
 
-
     public async Task<RegisterDeviceResult> RegisterAsync(RegisterDeviceCommand command)
     {
-        var deviceType = command.GetDeviceType(); // validates enum here
+        var deviceType = command.GetDeviceType();
 
         var exists = await _repository.ExistsAsync(command.HomeId, command.Name);
 
@@ -27,7 +27,21 @@ public class RegisterDeviceHandler
 
         await _repository.AddAsync(device);
 
-        return new RegisterDeviceResult
+        return MapToResult(device);
+    }
+
+    public async Task<RegisterDeviceResult?> GetAsync(Guid id)
+    {
+        var device = await _repository.GetByIdAsync(id);
+
+        if (device is null)
+            return null;
+
+        return MapToResult(device);
+    }
+
+    private static RegisterDeviceResult MapToResult(Device device) =>
+        new RegisterDeviceResult
         {
             Id = device.Id,
             Name = device.Name,
@@ -36,5 +50,4 @@ public class RegisterDeviceHandler
             HomeId = device.HomeId,
             CreatedAt = device.CreatedAt
         };
-    }
 }

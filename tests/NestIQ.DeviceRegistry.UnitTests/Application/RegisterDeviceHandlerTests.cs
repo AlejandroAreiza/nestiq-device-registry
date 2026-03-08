@@ -3,6 +3,7 @@ namespace NestIQ.DeviceRegistry.UnitTests.Application;
 using FluentAssertions;
 using Moq;
 using NestIQ.DeviceRegistry.Application.Interfaces;
+using NestIQ.DeviceRegistry.Application.UseCases;
 using NestIQ.DeviceRegistry.Application.UseCases.RegisterDevice;
 using NestIQ.DeviceRegistry.Domain.Entities;
 using NestIQ.DeviceRegistry.Domain.Enums;
@@ -10,11 +11,11 @@ using NestIQ.DeviceRegistry.Domain.Enums;
 public class RegisterDeviceHandlerTests
 {
     private readonly Mock<IDeviceRepository> _repositoryMock;
-    private readonly RegisterDeviceHandler _handler;
+    private readonly DeviceHandler _handler;
     public RegisterDeviceHandlerTests()
     {
         _repositoryMock = new Mock<IDeviceRepository>();
-        _handler = new RegisterDeviceHandler(_repositoryMock.Object);
+        _handler = new DeviceHandler(_repositoryMock.Object);
     }
 
     // AC1: A device can be registered with a name, type and home ID

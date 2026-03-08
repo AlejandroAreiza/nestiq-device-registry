@@ -1,16 +1,16 @@
 namespace NestIQ.DeviceRegistry.Api.Controllers;
 
 using Microsoft.AspNetCore.Mvc;
+using NestIQ.DeviceRegistry.Application.UseCases;
 using NestIQ.DeviceRegistry.Application.UseCases.RegisterDevice;
-using NestIQ.DeviceRegistry.Domain.Enums;
 
 [ApiController]
 [Route("api/devices")]
 public class DevicesController : ControllerBase
 {
-    private readonly RegisterDeviceHandler _handler;
+    private readonly DeviceHandler _handler;
 
-    public DevicesController(RegisterDeviceHandler handler)
+    public DevicesController(DeviceHandler handler)
     {
         _handler = handler;
     }
@@ -24,7 +24,7 @@ public class DevicesController : ControllerBase
         try
         {
             var result = await _handler.RegisterAsync(command);
-            return CreatedAtAction(nameof(RegisterDevice), new { id = result.Id }, result);
+            return CreatedAtAction(nameof(GetDevice), new { id = result.Id }, result);
         }
         catch (InvalidOperationException ex)
         {
@@ -34,5 +34,18 @@ public class DevicesController : ControllerBase
         {
             return BadRequest(new { error = ex.Message });
         }
+    }
+
+    [HttpGet("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetDevice(Guid id)
+    {
+        var result = await _handler.GetAsync(id);
+
+        if (result is null)
+            return NotFound(new { error = $"Device with id '{id}' not found." });
+
+        return Ok(result);
     }
 }

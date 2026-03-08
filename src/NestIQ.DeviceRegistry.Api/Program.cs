@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NestIQ.DeviceRegistry.Application.Interfaces;
-using NestIQ.DeviceRegistry.Application.UseCases.RegisterDevice;
+using NestIQ.DeviceRegistry.Application.UseCases;
 using NestIQ.DeviceRegistry.Infrastructure.Persistence;
 using NestIQ.DeviceRegistry.Infrastructure.Persistence.Repositories;
 
@@ -41,7 +41,7 @@ builder.Services.AddDbContext<DeviceRegistryDbContext>(options =>
 builder.Services.AddScoped<IDeviceRepository, DeviceRepository>();
 
 // Handlers
-builder.Services.AddScoped<RegisterDeviceHandler>();
+builder.Services.AddScoped<DeviceHandler>();
 
 var app = builder.Build();
 

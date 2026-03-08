@@ -19,7 +19,7 @@ public class DeviceRepository : IDeviceRepository
             .AnyAsync(d => d.HomeId == homeId && d.Name == name);
     }
 
-    public async Task RegisterAsync(Device device)
+    public async Task AddAsync(Device device)
     {
         await _context.Devices.AddAsync(device);
         await _context.SaveChangesAsync();

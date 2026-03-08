@@ -25,7 +25,7 @@ public class RegisterDeviceHandler
 
         var device = Device.Create(command.Name, deviceType, command.HomeId);
 
-        await _repository.RegisterAsync(device);
+        await _repository.AddAsync(device);
 
         return new RegisterDeviceResult
         {

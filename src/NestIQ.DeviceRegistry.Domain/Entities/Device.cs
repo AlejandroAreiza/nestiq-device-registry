@@ -24,7 +24,7 @@ public class Device
         return new Device
         {
             Id = Guid.NewGuid(),
-            Name = name,
+            Name = name.Trim(),
             Type = type,
             Status = DeviceStatus.Active,
             HomeId = homeId,

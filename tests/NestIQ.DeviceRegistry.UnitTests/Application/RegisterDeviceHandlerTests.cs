@@ -86,7 +86,7 @@ public class RegisterDeviceHandlerTests
 
         // Assert
         _repositoryMock.Verify(
-            r => r.RegisterAsync(It.Is<Device>(d =>
+            r => r.AddAsync(It.Is<Device>(d =>
                 d.Name == command.Name &&
                 d.HomeId == command.HomeId)),
             Times.Once);

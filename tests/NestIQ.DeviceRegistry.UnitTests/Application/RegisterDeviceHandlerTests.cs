@@ -3,8 +3,7 @@ namespace NestIQ.DeviceRegistry.UnitTests.Application;
 using FluentAssertions;
 using Moq;
 using NestIQ.DeviceRegistry.Application.Interfaces;
-using NestIQ.DeviceRegistry.Application.UseCases;
-using NestIQ.DeviceRegistry.Application.UseCases.RegisterDevice;
+using NestIQ.DeviceRegistry.Application.UseCases.Device;
 using NestIQ.DeviceRegistry.Domain.Entities;
 using NestIQ.DeviceRegistry.Domain.Enums;
 
@@ -92,6 +91,4 @@ public class RegisterDeviceHandlerTests
                 d.HomeId == command.HomeId)),
             Times.Once);
     }
-
-
 }

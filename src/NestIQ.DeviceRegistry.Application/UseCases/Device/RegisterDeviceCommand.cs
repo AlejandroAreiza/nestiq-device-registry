@@ -1,4 +1,4 @@
-namespace NestIQ.DeviceRegistry.Application.UseCases.RegisterDevice;
+namespace NestIQ.DeviceRegistry.Application.UseCases.Device;
 
 using NestIQ.DeviceRegistry.Domain.Enums;
 

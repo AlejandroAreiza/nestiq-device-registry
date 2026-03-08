@@ -1,8 +1,7 @@
 namespace NestIQ.DeviceRegistry.Api.Controllers;
 
 using Microsoft.AspNetCore.Mvc;
-using NestIQ.DeviceRegistry.Application.UseCases;
-using NestIQ.DeviceRegistry.Application.UseCases.RegisterDevice;
+using NestIQ.DeviceRegistry.Application.UseCases.Device;
 
 [ApiController]
 [Route("api/devices")]

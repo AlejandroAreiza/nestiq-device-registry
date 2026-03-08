@@ -1,6 +1,6 @@
 using NestIQ.DeviceRegistry.Domain.Enums;
 
-namespace NestIQ.DeviceRegistry.Application.UseCases.RegisterDevice;
+namespace NestIQ.DeviceRegistry.Application.UseCases.Device;
 
 public record RegisterDeviceResult
 {

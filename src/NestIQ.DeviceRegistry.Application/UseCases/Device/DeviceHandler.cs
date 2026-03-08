@@ -1,7 +1,6 @@
-namespace NestIQ.DeviceRegistry.Application.UseCases;
+namespace NestIQ.DeviceRegistry.Application.UseCases.Device;
 
 using NestIQ.DeviceRegistry.Application.Interfaces;
-using NestIQ.DeviceRegistry.Application.UseCases.RegisterDevice;
 using NestIQ.DeviceRegistry.Domain.Entities;
 
 public class DeviceHandler

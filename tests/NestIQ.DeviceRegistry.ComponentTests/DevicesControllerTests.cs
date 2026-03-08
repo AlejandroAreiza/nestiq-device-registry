@@ -6,7 +6,7 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using NestIQ.DeviceRegistry.Application.Interfaces;
-using NestIQ.DeviceRegistry.Application.UseCases.RegisterDevice;
+using NestIQ.DeviceRegistry.Application.UseCases.Device;
 using NestIQ.DeviceRegistry.Domain.Entities;
 using NestIQ.DeviceRegistry.Domain.Enums;
 using Moq;

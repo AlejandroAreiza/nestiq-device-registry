@@ -1,9 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NestIQ.DeviceRegistry.Application.Interfaces;
-using NestIQ.DeviceRegistry.Application.UseCases;
+using NestIQ.DeviceRegistry.Application.UseCases.Device;
 using NestIQ.DeviceRegistry.Infrastructure.Persistence;
 using NestIQ.DeviceRegistry.Infrastructure.Persistence.Repositories;
+;
 
 var builder = WebApplication.CreateBuilder(args);
 

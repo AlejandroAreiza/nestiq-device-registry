@@ -11,3 +11,11 @@
 | `IntegrationTests` | Tests Infrastructure layer with real PostgreSQL |
 
 ---
+
+FieldValueServer name / 
+Host localhost 
+Port 5432 
+Database nestiq_device_registry
+Username output of whoami
+Password leave empty
+Connection NestIQ Local

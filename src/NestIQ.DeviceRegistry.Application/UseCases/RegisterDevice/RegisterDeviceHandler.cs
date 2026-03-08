@@ -13,26 +13,28 @@ public class RegisterDeviceHandler
     }
 
 
-    public async Task<RegisterDeviceResult> HandleAsync(RegisterDeviceCommand command)
+    public async Task<RegisterDeviceResult> RegisterAsync(RegisterDeviceCommand command)
     {
+        var deviceType = command.GetDeviceType(); // validates enum here
+
         var exists = await _repository.ExistsAsync(command.HomeId, command.Name);
 
         if (exists)
             throw new InvalidOperationException(
                 $"A device with name '{command.Name}' already exists in this home.");
 
-        var device = Device.Create(command.Name, command.Type, command.HomeId);
+        var device = Device.Create(command.Name, deviceType, command.HomeId);
 
-        await _repository.AddAsync(device);
-        
-        return new RegisterDeviceResult(
-            Id: device.Id,
-            Name: device.Name,
-            Type: device.Type,
-            Status: device.Status,
-            HomeId: device.HomeId,
-            CreatedAt: device.CreatedAt
-        );
- 
+        await _repository.RegisterAsync(device);
+
+        return new RegisterDeviceResult
+        {
+            Id = device.Id,
+            Name = device.Name,
+            Type = device.Type,
+            Status = device.Status,
+            HomeId = device.HomeId,
+            CreatedAt = device.CreatedAt
+        };
     }
 }

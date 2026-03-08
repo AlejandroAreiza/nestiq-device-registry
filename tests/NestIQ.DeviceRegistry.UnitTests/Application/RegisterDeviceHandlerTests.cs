@@ -24,7 +24,7 @@ public class RegisterDeviceHandlerTests
         // Arrange
         var command = new RegisterDeviceCommand(
             Name: "Living Room Light",
-            Type: DeviceType.Light,
+            Type: "Light",
             HomeId: Guid.NewGuid()
         );
 
@@ -33,12 +33,12 @@ public class RegisterDeviceHandlerTests
             .ReturnsAsync(false);
 
         // Act
-        var result = await _handler.HandleAsync(command);
+        var result = await _handler.RegisterAsync(command);
 
         // Assert
         result.Should().NotBeNull();
         result.Name.Should().Be(command.Name);
-        result.Type.Should().Be(command.Type);
+        result.Type.Should().Be(DeviceType.Light);
         result.HomeId.Should().Be(command.HomeId);
         result.Status.Should().Be(DeviceStatus.Active);
     }
@@ -50,7 +50,7 @@ public class RegisterDeviceHandlerTests
         // Arrange
         var command = new RegisterDeviceCommand(
             Name: "Living Room Light",
-            Type: DeviceType.Light,
+            Type: "Light",
             HomeId: Guid.NewGuid()
         );
 
@@ -59,7 +59,7 @@ public class RegisterDeviceHandlerTests
             .ReturnsAsync(true);
 
         // Act
-        var act = () => _handler.HandleAsync(command);
+        var act = () => _handler.RegisterAsync(command);
 
         // Assert
         await act.Should().ThrowAsync<InvalidOperationException>()
@@ -73,7 +73,7 @@ public class RegisterDeviceHandlerTests
         // Arrange
         var command = new RegisterDeviceCommand(
             Name: "Front Door Camera",
-            Type: DeviceType.Camera,
+            Type: "Camera",
             HomeId: Guid.NewGuid()
         );
 
@@ -82,11 +82,11 @@ public class RegisterDeviceHandlerTests
             .ReturnsAsync(false);
 
         // Act
-        await _handler.HandleAsync(command);
+        await _handler.RegisterAsync(command);
 
         // Assert
         _repositoryMock.Verify(
-            r => r.AddAsync(It.Is<Device>(d =>
+            r => r.RegisterAsync(It.Is<Device>(d =>
                 d.Name == command.Name &&
                 d.HomeId == command.HomeId)),
             Times.Once);

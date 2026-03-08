@@ -12,10 +12,24 @@
 
 ---
 
-FieldValueServer name / 
-Host localhost 
-Port 5432 
-Database nestiq_device_registry
-Username output of whoami
-Password leave empty
-Connection NestIQ Local
+Feature Branch
+      ↓
+git push
+      ↓
+Open Pull Request to main
+      ↓ GitHub Actions triggers (quality gate):
+      ✅ Build
+      ✅ Unit Tests
+      ✅ Component Tests
+      ✅ Integration Tests
+      ↓
+      ❌ Any test fails → PR blocked, cannot merge
+      ✅ All pass → PR can be merged
+      ↓
+Code Review + Merge to main
+      ↓
+Deploy to Staging
+      ✅ API Smoke Tests (quality gate)
+      ✅ E2E Tests (UI and subcutaneous)
+      ↓
+Deploy to Production

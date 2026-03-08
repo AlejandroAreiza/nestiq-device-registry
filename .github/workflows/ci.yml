@@ -1,0 +1,37 @@
+name: Quality Gate
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  quality-gate:
+    name: Quality Gate
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Restore tools
+        run: dotnet tool restore
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --no-restore
+
+      - name: Unit Tests
+        run: dotnet test tests/NestIQ.DeviceRegistry.UnitTests --no-build
+
+      - name: Component Tests
+        run: dotnet test tests/NestIQ.DeviceRegistry.ComponentTests --no-build
+
+      - name: Integration Tests
+        run: dotnet test tests/NestIQ.DeviceRegistry.IntegrationTests --no-build

@@ -33,3 +33,5 @@ Deploy to Staging
       ✅ E2E Tests (UI and subcutaneous)
       ↓
 Deploy to Production
+
+echo "# NestIQ Device Registry"

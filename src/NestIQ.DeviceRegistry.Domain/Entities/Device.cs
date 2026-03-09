@@ -11,7 +11,7 @@ public class Device
     public DateTime CreatedAt { get; set; }
     public Guid HomeId { get; set; }
 
-    private Device() {}
+    private Device() { }
 
     public static Device Create(string name, DeviceType type, Guid homeId)
     {
@@ -20,16 +20,17 @@ public class Device
 
         if (homeId == Guid.Empty)
             throw new ArgumentException("Home ID must be provided.", nameof(homeId));
-        
+
         return new Device
         {
             Id = Guid.NewGuid(),
-            Name = name.Trim(),
+            Name = name,
+            // Name = name.Trim(),
             Type = type,
             Status = DeviceStatus.Active,
             HomeId = homeId,
             CreatedAt = DateTime.UtcNow
         };
     }
- 
+
 }

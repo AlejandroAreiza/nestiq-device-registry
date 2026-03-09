@@ -17,13 +17,16 @@ jobs:
 
       - name: Validate commit messages
         run: |
-          COMMITS=$(git log origin/main..HEAD --pretty=format:"%s")
+          COMMITS=$(git log origin/main..HEAD --pretty=format:"%s" --no-merges)
           echo "Commits to validate:"
           echo "$COMMITS"
           
           PATTERN="^(feat|fix|chore|refactor|test|docs|ci|perf|style|revert)(\(.+\))?: .{1,100}$"
           
           while IFS= read -r commit; do
+            if [[ -z "$commit" ]]; then
+              continue
+            fi
             if [[ ! "$commit" =~ $PATTERN ]]; then
               echo "❌ Invalid commit message: '$commit'"
               echo "✅ Format: type(scope): description"

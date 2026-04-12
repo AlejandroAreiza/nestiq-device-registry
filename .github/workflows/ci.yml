@@ -1,37 +1,19 @@
-name: Quality Gate
+name: CI
 
 on:
   pull_request:
     branches: [ main ]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
 
 jobs:
+  conventions:
+    uses: AlejandroAreiza/nestiq/.github/workflows/conventions.yml@main
+
   quality-gate:
-    name: Quality Gate
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 9.0.x
-
-      - name: Restore tools
-        run: dotnet tool restore
-
-      - name: Restore dependencies
-        run: dotnet restore
-
-      - name: Build
-        run: dotnet build --no-restore
-
-      - name: Unit Tests
-        run: dotnet test tests/NestIQ.DeviceRegistry.UnitTests --no-build
-
-      - name: Component Tests
-        run: dotnet test tests/NestIQ.DeviceRegistry.ComponentTests --no-build
-
-      - name: Integration Tests
-        run: dotnet test tests/NestIQ.DeviceRegistry.IntegrationTests --no-build
+    uses: AlejandroAreiza/nestiq/.github/workflows/quality-gate.yml@main
+    with:
+      unit-tests-project: tests/NestIQ.DeviceRegistry.UnitTests
+      component-tests-project: tests/NestIQ.DeviceRegistry.ComponentTests
+      integration-tests-project: tests/NestIQ.DeviceRegistry.IntegrationTests

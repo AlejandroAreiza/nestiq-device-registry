@@ -1,8 +1,9 @@
 name: Conventions
 
 on:
+  push:
+    branches: [ '**' ]
   pull_request:
-    branches: [ main ]
 
 jobs:
   conventions:
@@ -17,7 +18,7 @@ jobs:
 
       - name: Validate branch name
         run: |
-          BRANCH="${{ github.head_ref }}"
+          BRANCH="${GITHUB_REF#refs/heads/}"
           echo "Branch: $BRANCH"
           if [[ ! "$BRANCH" =~ ^(feature|fix|chore|refactor|test|docs|ci|perf|style|revert)/.+ ]]; then
             echo "❌ Invalid branch name"

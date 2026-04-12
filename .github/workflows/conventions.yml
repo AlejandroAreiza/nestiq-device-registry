@@ -1,0 +1,47 @@
+name: Conventions
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  conventions:
+    name: Validate Conventions
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate branch name
+        run: |
+          BRANCH="${{ github.head_ref }}"
+          echo "Branch: $BRANCH"
+          if [[ ! "$BRANCH" =~ ^(feature|fix|chore|refactor|test|docs|ci|perf|style|revert)/.+ ]]; then
+            echo "❌ Invalid branch name"
+            echo "Valid prefixes: feature/, fix/, chore/, refactor/, test/, docs/, ci/, perf/, style/, revert/"
+            exit 1
+          fi
+          echo "✅ Branch name valid"
+
+      - name: Validate commit messages
+        run: |
+          COMMITS=$(git log origin/main..HEAD --pretty=format:"%s" --no-merges)
+          echo "Commits:"
+          echo "$COMMITS"
+          
+          PATTERN="^(feat|fix|chore|refactor|test|docs|ci|perf|style|revert)(\(.+\))?: .{1,100}$"
+          
+          while IFS= read -r commit; do
+            if [[ -z "$commit" ]]; then
+              continue
+            fi
+            if [[ ! "$commit" =~ $PATTERN ]]; then
+              echo "❌ Invalid: '$commit'"
+              echo "Format: type(scope): description"
+              exit 1
+            fi
+            echo "✅ $commit"
+          done <<< "$COMMITS"

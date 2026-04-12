@@ -57,6 +57,18 @@ NestIQ is a smart home IoT platform. **Device Registry** is the foundational ser
 | **Integration** | Data layer communicates correctly with real DB | None | Medium |
 | **API Smoke** | Deployed service is alive and full stack is wired | None | Medium |
 
+### Performance Tests (`nestiq-performance-tests` repo)
+
+Performance tests live in a **separate repository** — [nestiq-performance-tests](https://github.com/AlejandroAreiza/nestiq-performance-tests.git).
+
+**Tool:** k6
+
+| Test Type | Purpose | VUs | When |
+|---|---|---|---|
+| **Load test** | Normal expected traffic | 10 | Staging — after deploy |
+| **Stress test** | Push beyond limits | 400 | Staging — before release |
+| **Spike test** | Sudden burst of traffic | 500 | Staging — before release |
+
 ---
 
 ## 🚀 Quality Gates & CI/CD Flow
@@ -149,6 +161,8 @@ ci: add quality gate pipeline
 
 ---
 
+
+
 ## 🗄️ Database
 
 **Engine:** PostgreSQL 16 — each service owns its own database.
@@ -178,7 +192,7 @@ dotnet ef database update \
 
 ```bash
 # Clone
-git clone https://github.com/YOUR_USERNAME/nestiq-device-registry.git
+git clone https://github.com/AlejandroAreiza/nestiq-device-registry.git
 cd nestiq-device-registry
 
 # Restore tools
